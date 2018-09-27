@@ -2,7 +2,8 @@
 
 ## Task
 
-Your task is to implement class `SmartCalculator`. All methods in class should be *chainable*. The priority of different operations should be kept in mind. It means, that `2 + 2 * 2` is `6`, not `8`.
+Your task is to implement class `SmartCalculator`. All methods in class should be *chainable*.
+The priority of different operations should be kept in mind. It means, that `2 + 2 * 2` is `6`, not `8`.
 
 For example:
 ```js
