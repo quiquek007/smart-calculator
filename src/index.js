@@ -5,7 +5,6 @@ class SmartCalculator {
     this.rezult = [];
   }
 
-
   add(number) {
     this.conclusion.push(number);
     this.expression.push('num');
@@ -36,36 +35,29 @@ class SmartCalculator {
     return this;
   }
 
-  solve(arrStates, arrNumber) {
-    let firstArg = arrNumber[0];
-    let secondArg = 1;
-    if (arrStates[0] === 'num') this.rezult.push(firstArg);
-    if (arrStates[0] === 'multiply') {
-      for (let i = 0, len = arrStates.length; i < len; i++) {
-        if (arrStates[i] === 'multiply') firstArg *= arrNumber[i + 1];
-        if (arrStates[i] === 'pow') {
-          secondArg = Math.pow(arrNumber[i + 1], secondArg);
-          if (arrNumber[i + 1] < 0) secondArg *= -1;
-        }
+  solve(arrStates, arrNumbers) {
+    let multiplier = 1;
+
+    for (let i = 0, len = arrStates.length; i < len; i++) {
+      let firstArg = arrNumbers[i];
+      let secondArg = arrNumbers[i + 1];
+
+      if (arrStates[i] === 'num') return this.rezult.push(arrNumbers[i] * multiplier);
+
+      if (arrStates[i] === 'multiply') {
+        multiplier *= firstArg;
+        continue;
       }
-      this.rezult.push(firstArg * secondArg);
-    }
-    if (arrStates[0] === 'devide') {
-      firstArg = arrNumber[1] / firstArg;
-      for (let i = 1, len = arrStates.length - 1; i < len; i++) {
-        if (arrStates[i] === 'devide') firstArg /= arrNumber[i];
+
+      if (arrStates[i] === 'pow') {
+        arrNumbers[i + 1] = Math.pow(secondArg, firstArg);
+        if (secondArg < 0 && (arrNumbers[i + 1] > 0)) arrNumbers[i + 1] *= -1;
+        continue;
       }
-      this.rezult.push(firstArg);
-    }
-    if (arrStates[0] === 'pow') {
-      for (let i = 0, len = arrStates.length; i < len; i++) {
-        if (arrStates[i] === 'pow') {
-          firstArg = Math.pow(arrNumber[i + 1], firstArg);
-          if (arrNumber[i + 1] < 0) firstArg *= -1;
-        }
-        if (arrStates[i] === 'multiply') firstArg *= arrNumber[i + 1];
+
+      if (arrStates[i] === 'devide') {
+        arrNumbers[i + 1] = secondArg / firstArg;
       }
-      this.rezult.push(firstArg);
     }
   }
 
@@ -79,6 +71,5 @@ class SmartCalculator {
     return this.rezult.reduce((a, b) => a + b, 0);
   }
 }
-
 
 module.exports = SmartCalculator;
